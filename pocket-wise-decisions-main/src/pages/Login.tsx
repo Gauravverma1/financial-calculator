@@ -21,6 +21,7 @@ const Login = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Login failed');
       localStorage.setItem('token', data.token);
+      localStorage.setItem('username', username);
       navigate('/');
     } catch (err: any) {
       setError(err.message);

@@ -2,14 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 
-function parseJwt(token: string) {
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch (e) {
-    return null;
-  }
-}
-
 const ProfileMenu = () => {
   const [open, setOpen] = useState(false);
   const [username, setUsername] = useState('');
@@ -17,15 +9,13 @@ const ProfileMenu = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const payload = parseJwt(token);
-      setUsername(payload?.username || '');
-    }
+    const user = localStorage.getItem('username');
+    setUsername(user || '');
   }, [location]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
     setOpen(false);
     navigate('/login');
   };

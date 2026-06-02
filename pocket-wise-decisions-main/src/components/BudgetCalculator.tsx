@@ -19,22 +19,9 @@ const COLORS = {
   expense: ['#f43f5e', '#e11d48', '#be123c', '#9f1239', '#881337']
 };
 
-function parseJwt(token: string) {
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch (e) {
-    return null;
-  }
-}
-
 const getStorageKey = () => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    const payload = parseJwt(token);
-    const username = payload?.username;
-    if (username) return `savedBudget_${username}`;
-  }
-  return 'savedBudget';
+  const username = localStorage.getItem('username');
+  return username ? `savedBudget_${username}` : 'savedBudget';
 };
 
 const BudgetCalculator = () => {
