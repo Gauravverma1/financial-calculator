@@ -77,7 +77,7 @@ const frontendBuildPath = path.join(__dirname, '../../pocket-wise-decisions-main
 app.use(express.static(frontendBuildPath));
 
 // Fallback wildcard route to serve frontend index.html for client-side routing
-app.get('*', (req, res) => {
+app.use((req, res) => {
   if (req.path.startsWith('/api')) {
     return res.status(404).json({ message: 'API route not found' });
   }
