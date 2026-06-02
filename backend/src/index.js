@@ -4,6 +4,7 @@ const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const path = require('path');
+const fs = require('fs');
 
 const SECRET = 'your_jwt_secret';
 
@@ -14,7 +15,13 @@ app.use(cors());
 app.use(express.json());
 
 // Initialize SQLite DB
-const dbPath = process.env.VERCEL ? '/tmp/users.db' : './users.db';
+let dbPath = './users.db';
+if (process.env.VERCEL) {
+  dbPath = '/tmp/users.db';
+} else if (fs.existsSync('/opt/pocketwise-data')) {
+  dbPath = '/opt/pocketwise-data/users.db';
+}
+
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) return console.error('DB connection error:', err);
   console.log(`Connected to SQLite database at ${dbPath}.`);
