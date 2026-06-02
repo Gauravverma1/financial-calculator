@@ -2,12 +2,9 @@ services:
   - type: web
     name: pocketwise
     env: node
+    plan: free
     buildCommand: npm run build
     startCommand: npm run start
-    disk:
-      name: sqlite-data
-      mountPath: /opt/pocketwise-data
-      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
