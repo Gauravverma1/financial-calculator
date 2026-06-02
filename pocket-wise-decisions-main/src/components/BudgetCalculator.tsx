@@ -19,6 +19,24 @@ const COLORS = {
   expense: ['#f43f5e', '#e11d48', '#be123c', '#9f1239', '#881337']
 };
 
+function parseJwt(token: string) {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
+}
+
+const getStorageKey = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const payload = parseJwt(token);
+    const username = payload?.username;
+    if (username) return `savedBudget_${username}`;
+  }
+  return 'savedBudget';
+};
+
 const BudgetCalculator = () => {
   const [items, setItems] = useState<BudgetItem[]>([]);
   const [itemName, setItemName] = useState('');
@@ -27,7 +45,7 @@ const BudgetCalculator = () => {
 
   // Load initial budget if present
   useEffect(() => {
-    const saved = localStorage.getItem('savedBudget');
+    const saved = localStorage.getItem(getStorageKey());
     if (saved) {
       try {
         setItems(JSON.parse(saved));
@@ -88,7 +106,7 @@ const BudgetCalculator = () => {
   
   const saveBudget = () => {
     try {
-      localStorage.setItem('savedBudget', JSON.stringify(items));
+      localStorage.setItem(getStorageKey(), JSON.stringify(items));
       toast.success('Budget saved successfully!');
     } catch (error) {
       toast.error('Failed to save budget');
@@ -98,7 +116,7 @@ const BudgetCalculator = () => {
   
   const loadBudget = () => {
     try {
-      const savedBudget = localStorage.getItem('savedBudget');
+      const savedBudget = localStorage.getItem(getStorageKey());
       if (savedBudget) {
         setItems(JSON.parse(savedBudget));
         toast.success('Budget loaded successfully!');
