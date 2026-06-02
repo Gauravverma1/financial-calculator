@@ -3,11 +3,7 @@
   "version": "1.0.0",
   "description": "Unified build orchestrator for pocket-wise-decisions",
   "scripts": {
-    "install:backend": "npm --prefix backend install",
-    "install:frontend": "npm --prefix pocket-wise-decisions-main install",
-    "install:all": "npm run install:backend && npm run install:frontend",
-    "build:frontend": "npm --prefix pocket-wise-decisions-main run build",
-    "build": "npm run install:all && npm run build:frontend",
+    "build": "npm install --prefix backend && npm install --prefix pocket-wise-decisions-main && npm run build --prefix pocket-wise-decisions-main",
     "start": "node backend/src/index.js"
   }
 }
