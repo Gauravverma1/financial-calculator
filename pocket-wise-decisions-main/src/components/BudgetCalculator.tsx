@@ -20,7 +20,7 @@ const COLORS = {
 };
 
 const getStorageKey = () => {
-  const username = localStorage.getItem('username');
+  const username = sessionStorage.getItem('username');
   return username ? `savedBudget_${username}` : 'savedBudget';
 };
 

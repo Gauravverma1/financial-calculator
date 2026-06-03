@@ -9,13 +9,13 @@ const ProfileMenu = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const user = localStorage.getItem('username');
+    const user = sessionStorage.getItem('username');
     setUsername(user || '');
   }, [location]);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('username');
     setOpen(false);
     navigate('/login');
   };
